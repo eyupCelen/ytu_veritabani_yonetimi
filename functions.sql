@@ -32,8 +32,7 @@ END;
 $$ LANGUAGE plpgsql;
 
 -- Seçilen kategoriden en az belirtilen puana sahip ürünleri getirir. 
--- TODO: yukarıdaki fonksiyonu kullanıcak şekilde değiştirilecek
-CREATE OR REPLACE FUNCTION get_rated_product(
+CREATE OR REPLACE FUNCTION get_rated_products(
     min_rating_score real, 
     ctgry_id category.category_id%TYPE
 )
@@ -46,19 +45,16 @@ RETURNS TABLE (
 AS $$
 BEGIN
     RETURN QUERY
-    SELECT 
-        P.product_id, 
-        P.product_description, 
-        P.price, 
-        C.category_name
-    FROM Product P
-    JOIN Category C ON P.category_id = C.category_id
-    WHERE 
-        C.category_id = ctgry_id
-        AND (
+        SELECT 
+        R.product_id, 
+        R.product_description, 
+        R.price,
+	R.category_name 
+	FROM get_categorized_products(ctgry_id) as R
+    WHERE(
             SELECT AVG(review_rating)
             FROM REVIEW
-            WHERE REVIEW.product_id = P.product_id
+            WHERE REVIEW.product_id = R.product_id
         ) >= min_rating_score;
 END;
 $$ LANGUAGE plpgsql;
