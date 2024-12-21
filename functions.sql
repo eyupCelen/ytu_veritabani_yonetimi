@@ -1,4 +1,38 @@
+--Seçilen kategoriden ve alt kategorilerinden ürün getirir (recursively)
+CREATE OR REPLACE FUNCTION get_categorized_products(ctgry_id category.category_id%TYPE) 
+RETURNS TABLE (
+    product_id product.product_id%TYPE, 
+    product_description product.product_description%TYPE, 
+    price product.price%TYPE,
+    category_name category.category_name%TYPE
+)
+AS $$
+BEGIN
+    RETURN QUERY
+    SELECT 
+        P.product_id, 
+        P.product_description, 
+        P.price,
+	C1.category_name
+    FROM Product P
+    JOIN Category C1 ON C1.category_id = P.category_id
+    where P.category_id in (
+		WITH RECURSIVE CategoryHierarchy AS (
+		    SELECT category_id
+		    FROM category
+		    WHERE category_id = ctgry_id
+		    UNION ALL
+		    SELECT C.category_id
+		    FROM CategoryHierarchy CH
+		    JOIN category C on CH.category_id=C.parent_category_id
+		    )
+	   	SELECT category_id FROM CategoryHierarchy
+	);
+END;
+$$ LANGUAGE plpgsql;
+
 -- Seçilen kategoriden en az belirtilen puana sahip ürünleri getirir. 
+-- TODO: yukarıdaki fonksiyonu kullanıcak şekilde değiştirilecek
 CREATE OR REPLACE FUNCTION get_rated_product(
     min_rating_score real, 
     ctgry_id category.category_id%TYPE
