@@ -3,6 +3,7 @@ INSERT INTO Customer (customer_id, customer_name, password, address, mail_addres
 (1, 'Ahmet Yılmaz', 'parola', 'Istanbul, Turkey', 'ahmet.yilmaz@example.com', '555-123-4567'),
 (2, 'Ayşe Demir', 'parola', 'Ankara, Turkey', 'ayse.demir@example.com', '555-987-6543'),
 (3, 'Mehmet Öz', 'parola', 'Izmir, Turkey', 'mehmet.oz@example.com', '555-543-2198'),
+(4, 'Ahmet Kaya', 'mypassword123', 'Bursa, Turkey', 'ahmet.kaya@example.com', '555-888-4321'),
 (5, 'Ali Can', 'pass987654', 'Antalya, Turkey', 'ali.can@example.com', '555-222-8765'),
 (6, 'Veli Aydın', 'mypassword654', 'Konya, Turkey', 'veli.aydin@example.com', '555-333-1234'),
 (7, 'Zeynep Kılıç', 'zey12345', 'Adana, Turkey', 'zeynep.kilic@example.com', '555-444-5678'),
@@ -105,7 +106,14 @@ INSERT INTO Product (product_id, product_description, product_amount, price, cat
 INSERT INTO Order_ (order_id, order_time, customer_id) VALUES
 (1, '2024-12-08 14:30:00', 1),
 (2, '2024-12-08 15:00:00', 2),
-(3, '2024-12-08 16:00:00', 3);
+(3, '2024-12-09 16:00:00', 3),
+(4, '2024-12-10 10:00:00', 4),
+(5, '2024-12-11 11:30:00', 5),
+(6, '2024-12-12 12:00:00', 6),
+(7, '2024-12-13 13:00:00', 7),
+(8, '2024-12-14 14:30:00', 8),
+(9, '2024-12-15 15:00:00', 9),
+(10, '2024-12-16 16:00:00', 10);
 
 --ORDER_PRODUCT
 INSERT INTO Order_Product (order_id, product_id, order_amount) VALUES
@@ -113,13 +121,27 @@ INSERT INTO Order_Product (order_id, product_id, order_amount) VALUES
 (1, 3, 1),
 (2, 2, 1),
 (2, 4, 3),
-(3, 5, 2);
+(3, 5, 2),
+(4, 4, 1),
+(5, 5, 2),
+(6, 6, 1),
+(7, 7, 3),
+(8, 8, 1),
+(9, 9, 2),
+(10, 10, 3);
 
 --REVIEW
 INSERT INTO Review (customer_id, product_id, review_body, review_rating) VALUES
-(1, 1, 'Ürün çok kaliteli, çok beğendim.', 5),
-(2, 2, 'Görseldeki kadar güzel değil, ama iş görür.', 3),
-(3, 3, 'Tam bir sanat eseri, çok güzel!', 5);
+(1, 1, 'Harika kalite, tekrar alırım!', 5),
+(2, 2, 'Güzel ürün, fakat biraz pahalı.', 3),
+(3, 3, 'Fiyatına göre iyi kalite.', 4),
+(4, 4, 'Harika kuş evi, bahçemde çok güzel duruyor.', 5),
+(5, 5, 'Çok güzel el dokuması kilim, çok memnun kaldım!', 4),
+(6, 6, 'Tasarımı güzel, ama renkler resimdekilerden biraz farklı.', 3),
+(7, 7, 'Çok güzel vazo, çok şık.', 5),
+(8, 8, 'Minimalist bir vazo, oturma odamda çok güzel duruyor.', 4),
+(9, 9, 'Kolye güzel, ancak biraz hassas hissettiriyor.', 3),
+(10, 10, 'Küpe çok güzel ve hafif, bayıldım!', 4);
 
 --sells
 INSERT INTO Product_Seller (product_id, seller_ssn) VALUES
