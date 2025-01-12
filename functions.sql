@@ -63,16 +63,13 @@ $$ LANGUAGE plpgsql;
 CREATE OR REPLACE FUNCTION get_most_popular_products()
 RETURNS TABLE (prod_id INT, total_amount INT) AS $$
 DECLARE
-    rec RECORD; 
+    rec RECORD;
     cur CURSOR FOR
-        SELECT product_id, COUNT(product_id) AS total_amount
-        FROM Order_Product
-        WHERE order_id IN (
-        	SELECT order_id 
-            FROM Order_
-            WHERE order_time >= NOW() - INTERVAL '30 days'
-			)
-        GROUP BY product_id
+        SELECT op.product_id, COUNT(op.product_id) AS total_amount
+        FROM Order_Product op
+        JOIN Order_ o ON op.order_id = o.order_id
+        GROUP BY op.product_id
+        HAVING MAX(o.order_time) >= NOW() - INTERVAL '30 days'
         ORDER BY total_amount DESC
         LIMIT 5;
 BEGIN
